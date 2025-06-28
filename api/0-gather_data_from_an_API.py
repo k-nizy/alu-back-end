@@ -32,7 +32,7 @@ def fetch_todo_progress(employee_id):
     num_done_tasks = len(done_tasks)
 
     # Display results
-    print(f"Employee {employee_name} is done with tasks({num_done_tasks}/{total_tasks}):")
+    print(f"Employee {employee_name} is doks({num_done_tasks}/{total_tasks}):")
     for task in done_tasks:
         print(f"\t {task.get('title')}")
 
@@ -46,4 +46,3 @@ if __name__ == "__main__":
             fetch_todo_progress(employee_id)
         except ValueError:
             print("Error: Employee ID must be an integer.")
-
