@@ -1,6 +1,6 @@
 #!/usr/bin/python3
-"""
-Fetches and displays TODO list progress of a given employee
+"""Fetches and displays TODO list progress of a given employee
+
 from the JSONPlaceholder REST API using their employee ID.
 """
 
