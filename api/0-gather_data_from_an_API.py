@@ -1,48 +1,30 @@
 #!/usr/bin/python3
-"""Fetches and d TODO list progress of a given employee
-
-from the JSONPlaceholder REST API using their employee ID.
-"""
+""" ToDo list """
 
 import requests
 import sys
 
-
-def fetch_todo_progress(employee_id):
-    """Fetch and display the TODO list progress for a given employee ID."""
-    base_url = "https://jsonplaceholder.typicode.com"
-    user_url = f"{base_url}/users/{employee_id}"
-    todos_url = f"{base_url}/todos?userId={employee_id}"
-
-    # Fetch user info
-    user_response = requests.get(user_url)
-    if user_response.status_code != 200:
-        print("Error: Invalid employee ID")
-        return
-    user = user_response.json()
-    employee_name = user.get("name")
-
-    # Fetch TODO list
-    todos_response = requests.get(todos_url)
-    todos = todos_response.json()
-
-    # Filter completed tasks
-    done_tasks = [task for task in todos if task.get("completed")]
-    total_tasks = len(todos)
-    num_done_tasks = len(done_tasks)
-
-    # Display results
-    print(f"Employee {employee_name} is doks({num_done_tasks}/{total_tasks}):")
-    for task in done_tasks:
-        print(f"\t {task.get('title')}")
-
-
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: ./0-gather_data_from_an_API.py <employee_id>")
-    else:
-        try:
-            employee_id = int(sys.argv[1])
-            fetch_todo_progress(employee_id)
-        except ValueError:
-            print("Error: Employee ID must be an integer.")
+    employee_id = int(sys.argv[1])
+    employee_url = "https://jsonplaceholder\
+.typicode.com/users/{}".format(employee_id)
+    todo_url = "https://jsonplaceholder\
+.typicode.com/users/{}/todos".format(employee_id)
+
+    employee_data = requests.get(employee_url).json()
+    employee_name = employee_data['name']
+
+    todo_data = requests.get(todo_url).json()
+
+    num_completed_tasks = 0
+    for task in todo_data:
+        if task['completed']:
+            num_completed_tasks += 1
+
+    total_num_tasks = len(todo_data)
+    print("Employee {} is done with tasks({}/{}):"
+          .format(employee_name, num_completed_tasks, total_num_tasks))
+
+    for task in todo_data:
+        if task['completed']:
+            print("\t {}".format(task['title']))
